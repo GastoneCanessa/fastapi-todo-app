@@ -9,7 +9,7 @@ data = {}
 output = ['...']
 
 def index(connection, input):
-    os.environ["OPENAI_API_KEY"]='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'
+    os.environ["OPENAI_API_KEY"]=''
     openai.api_key = os.getenv("OPENAI_API_KEY")
     prompt = generate_prompt(input)
     response = openai.Completion.create(
