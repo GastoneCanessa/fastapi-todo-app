@@ -1,0 +1,16 @@
+%%inherit(file="layout.haml")
+
+
+
+%%def(name="body()")
+  %h1 Openai
+
+  %form(method="POST", action="/open_ai/insert")
+    .field
+      .control
+        %input.input(name="item", type="text", placeholder="digit")
+    .field
+      .control
+        %input.button.is-primary(type="submit", value="Add")
+
+   %span= outputt[0]
