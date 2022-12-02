@@ -10,7 +10,8 @@ from open_ai import index, output
 from service import create_connection, execute_query
 from query import *
 
-db_url = "/home/gastone/Desktop/Progetti/ProgettiFrancesco/fastapi-todo-app3/fastapi-todo-app/sqlite_db"
+db_url = "./sqlite_db"
+# db_url = "/home/gastone/Desktop/Progetti/ProgettiFrancesco/fastapi-todo-app3/fastapi-todo-app/sqlite_db"
 connection = create_connection(db_url)
 execute_query(connection,str(create_generations_table))
 
