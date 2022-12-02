@@ -1,6 +1,6 @@
 from json import loads, dumps
 
-from env import R
+# from env import R
 
 class Todo(object):
     """Todo items model"""
