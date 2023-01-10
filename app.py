@@ -11,7 +11,6 @@ from service import create_connection, execute_query
 from query import *
 
 db_url = "./sqlite_db"
-# db_url = "/home/gastone/Desktop/Progetti/ProgettiFrancesco/fastapi-todo-app3/fastapi-todo-app/sqlite_db"
 connection = create_connection(db_url)
 execute_query(connection,str(create_generations_table))
 
@@ -59,22 +58,4 @@ def open_ai():
 def todo_update(item: str = Form(...)):
     index(connection, item)
     return RedirectResponse("/open_ai", status_code=303)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#
+ 
