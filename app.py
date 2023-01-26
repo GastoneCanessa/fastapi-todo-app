@@ -9,24 +9,41 @@ from todo import Todo
 from open_ai import index, output
 from service import create_connection, execute_query
 from query import *
+from fastapi.middleware.cors import CORSMiddleware
 
 db_url = "./sqlite_db"
 connection = create_connection(db_url)
 execute_query(connection,str(create_generations_table))
 
+class Item(BaseModel):
+    insert: str
+
 app = FastAPI()
+
+origins = [
+    "http://0.0.0.0:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.__name__ = 'App'
 
 app.mount("/public", StaticFiles(directory="public"), name="public")
 
-@app.get('/', response_class=HTMLResponse)
-def root():
-    todos = Todo.all()
-    return render("home", todos=todos)
-
-@app.get('/hello', response_class=HTMLResponse)
-def hello2():
-    return render("page2")
+# @app.get('/', response_class=HTMLResponse)
+# def root():
+#     todos = Todo.all()
+#     return render("home", todos=todos)
+#
+# @app.get('/hello', response_class=HTMLResponse)
+# def hello2():
+#     return render("page2")
 
 # @app.post('/todos')
 # def todo_create(item: str = Form(...)):
@@ -50,12 +67,22 @@ def hello2():
 #     data = todo.__dict__
 #     return data
 
-@app.get('/open_ai', response_class=HTMLResponse)
-def open_ai():
-    return render("open_ai", outputt=output)
+# @app.get('/open_ai', response_class=HTMLResponse)
+# def open_ai():
+#     return render("open_ai", outputt=output)
+#
+# @app.post('/open_ai/insert')
+# def todo_update(item: str = Form(...)):
+#     index(connection, item)
+#     return RedirectResponse("/open_ai", status_code=303)
 
-@app.post('/open_ai/insert')
-def todo_update(item: str = Form(...)):
-    index(connection, item)
+@app.get('/open_ai')
+def open_ai():
+    # return render("open_ai", outputt=output)
+    dic = {"output":output[0]}
+    return dic
+
+@app.post('/open_ai/insert/')
+def todo_update(item: Item):
+    index(connection, item.insert)
     return RedirectResponse("/open_ai", status_code=303)
- 

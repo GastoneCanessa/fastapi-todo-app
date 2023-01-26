@@ -9,13 +9,14 @@ data = {}
 output = ['...']
 
 def index(connection, input):
+    
     api_key = os.getenv("OPENAI_API_KEY")
     if api_key is '':
         raise ValueError("Please set OPENAI_API_KEY environment variable")
     openai.api_key = os.getenv("OPENAI_API_KEY")
     prompt = generate_prompt(input)
     response = openai.Completion.create(
-        model="text-davinci-002",
+        model="text-davinci-003",
         prompt=prompt,
         temperature=0.6,
     )
