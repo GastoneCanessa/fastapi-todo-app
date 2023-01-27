@@ -10,6 +10,15 @@ services:
       - redis
     environment:
       - APP_ENV=production
+  fe:
+    build:
+      context: front-end
+    ports:
+      - 4000
+    depends_on:
+      - app
+    environment:
+      - APP_ENV=production
   nginx:
     build:
       context: nginx
