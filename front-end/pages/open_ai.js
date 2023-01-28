@@ -45,11 +45,12 @@ export default function () {
     <div className="bod">
       <div className="card">
         <h2>
-          <b>Playground</b>
+          OpenAI Codex demo
         </h2>
         <form className="form">
           <div className="mb-4">
-            <textarea rows="4" cols="50" type="text" id="input2" placeholder="Type something" onChange={(e) => prompt = e.target.value}
+            <label className="textarea_label">Code block:</label>
+            <textarea rows="4" cols="50" type="text" class="prompt_textarea" placeholder="Type something" onChange={(e) => prompt = e.target.value}
             ></textarea>
           </div>
         </form>
@@ -57,6 +58,14 @@ export default function () {
           <button className="button-b" type="button" onClick={handleCreate}>
             <b>Submit</b>
           </button>
+        </div>
+
+
+        <div className="ouput">
+          <h2>Output</h2>
+          <pre class="outputCode">
+            ...
+          </pre>
         </div>
       </div>
     </div>

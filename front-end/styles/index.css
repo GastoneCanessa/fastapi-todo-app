@@ -1,19 +1,24 @@
+*, html, body, html body {
+  box-sizing: border-box;
+}
+
 body {
-  background-color: #f1faee;
+  background-color: #f3f3f3;
 }
 
 .bod {
-  background: #a8dadc;
+  background: #ddebf4;
   border-radius: 10px;
-  margin:50px 150px ;
+  margin: 40px 150px;
   padding: 10px 40px;
   display: flex;
   justify-content: center;
+  font-family: 'Roboto', sans-serif;
+  border: 1px solid #b3ced2;
 }
 
 .card {
   width: 100%;
-  margin: 30px ;
 }
 
 .button {
@@ -21,31 +26,38 @@ body {
 }
 
 .button-b {
-  background: #2a9d8f;
+  background: #8ebae4;
   border-radius: 5px;
-  border: None;
-  padding: 10px 20px ;
-  margin: 30px 0px;
+  padding: 8px 20px ;
+  margin: 20px 0px;
 }
 
-#input {
-  height: 400px;
+.form {
   width: 100%;
 }
 
-#input2 {
+form input {
+  width: 100%;
+  border: 1px solid #b3ced2;
+}
+
+form textarea {
+  width: 100%;
+}
+
+.prompt_textarea {
   height: 200px;
-  width: 100%;
 }
 
-.form{
-  padding: 0px 0%;
-  width: 100%;
+.textarea_label {
+  display: inline-block;
+  margin: 10px 0px;
+  font-weight: bold;
 }
 
 .textarea {
-    border: null;
-    width: 250px;
-    height: 40px;
-    padding: 10px;
+  border: null;
+  width: 250px;
+  height: 40px;
+  padding: 10px;
 }
