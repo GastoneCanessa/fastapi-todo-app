@@ -1,39 +1,43 @@
 import { useState, useEffect } from "react";
 import Script from 'next/script'
 
-export default function About() {
+const renderPosts = (data, setBody) => {
+  let inputValue = document.getElementById("input").value;
+  document.getElementById("input").value = `${inputValue}\n\n# ${setBody}\n\n${data}`
+  document.getElementById("input2").value = ``
+}
 
-  var setBody = "";
-  var data = ''
-  // const res = []
-  const res = useState("");
+const insertData = async (setBody, res) => {
+  console.log({ setBody });
+  console.log({ res });
+  const jsonResponse = await fetchData(setBody);
+  const { output } = jsonResponse;
+  let data = output;
+  renderPosts(data, setBody);
+}
+
+const fetchData = async (setBody) => {
+  try {
+    const response = await fetch('http://127.0.0.1:4000/open_ai/insert/', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ "insert": setBody }),
+    });
+    return await response.json();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+export default function () {
 
   const handleCreate = () => {
-
-    console.log({setBody});
-
-    console.log({res});
-
-
-    fetch('http://0.0.0.0:4000/open_ai/insert/' ,{
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"insert":setBody}),
-    })
-
-    .then(response =>response.json())
-    .then(response => response.output)
-    .then(response => {data=response})
-    .then(response => {
-      var x =document.getElementById("input").value
-      document.getElementById("input").value = `${x}\n\n# ${setBody}\n\n${data}`
-      document.getElementById("input2").value = ``
-    })
-
-}
+    fetchData()
+  }
 
   return (
     <div className="bod">
