@@ -1,47 +1,35 @@
-import { useState, useEffect } from "react";
-import Script from 'next/script'
+import { useState, useEffect } from "react"
 
 const fetchHeaderJSON = {
   'Accept': 'application/json',
   'Content-Type': 'application/json'
 }
 
-const renderPosts = (data, prompt) => {
-  let inputValue = document.getElementById("input").value;
-  document.getElementById("input").value = `${inputValue}\n\n# ${prompt}\n\n${data}`
-  document.getElementById("input2").value = ``
-}
-
-const insertData = async (prompt, res) => {
-  console.log({ prompt });
-  console.log({ res });
-  const jsonResponse = await fetchData(prompt);
-  const { output } = jsonResponse;
-  let data = output;
-  renderPosts(data, prompt);
-}
-
 const fetchData = async (prompt) => {
   console.log(`fetch - body: ${JSON.stringify(prompt)}`)
-  const payload = { "insert": prompt }
+  const payload = { "prompt": prompt }
   try {
-    const response = await fetch('/api/open_ai', {
+    const resp = await fetch('/api/open_ai', {
       method: 'POST',
       headers: fetchHeaderJSON,
       body: JSON.stringify(payload),
-    });
-    return await response.json();
+    })
+    let out = await resp.json()
+    out = out.output
+    return out
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
 }
 
 export default function () {
 
   let prompt = ""
+  const [output, setOutput] = useState(null)
 
-  const handleCreate = () => {
-    fetchData(prompt)
+  const handleCreate = async () => {
+    const out = await fetchData(prompt)
+    setOutput(out)
   }
 
   return (
@@ -63,14 +51,13 @@ export default function () {
           </button>
         </div>
 
-
         <div className="ouput">
           <h2>Output</h2>
           <pre className="outputCode">
-            ...
+            {output}
           </pre>
         </div>
       </div>
     </div>
-  );
+  )
 }
