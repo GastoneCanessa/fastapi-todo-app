@@ -1,22 +1,23 @@
 import { useState, useEffect } from "react";
 import Script from 'next/script'
 
-const renderPosts = (data, setBody) => {
+const renderPosts = (data, prompt) => {
   let inputValue = document.getElementById("input").value;
-  document.getElementById("input").value = `${inputValue}\n\n# ${setBody}\n\n${data}`
+  document.getElementById("input").value = `${inputValue}\n\n# ${prompt}\n\n${data}`
   document.getElementById("input2").value = ``
 }
 
-const insertData = async (setBody, res) => {
-  console.log({ setBody });
+const insertData = async (prompt, res) => {
+  console.log({ prompt });
   console.log({ res });
-  const jsonResponse = await fetchData(setBody);
+  const jsonResponse = await fetchData(prompt);
   const { output } = jsonResponse;
   let data = output;
-  renderPosts(data, setBody);
+  renderPosts(data, prompt);
 }
 
-const fetchData = async (setBody) => {
+const fetchData = async (prompt) => {
+  console.log(`fetch - body: ${JSON.stringify(prompt)}`)
   try {
     const response = await fetch('http://127.0.0.1:4000/open_ai/insert/', {
       method: 'POST',
@@ -24,7 +25,7 @@ const fetchData = async (setBody) => {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ "insert": setBody }),
+      body: JSON.stringify({ "insert": prompt }),
     });
     return await response.json();
   } catch (err) {
@@ -32,39 +33,32 @@ const fetchData = async (setBody) => {
   }
 }
 
-
 export default function () {
 
+  let prompt = ""
+
   const handleCreate = () => {
-    fetchData()
+    fetchData(prompt)
   }
 
   return (
     <div className="bod">
-    <div className="card">
-    <h2><b>Playground</b></h2>
-    <form className="form">
-      <div className="mb-4">
-      <textarea rows="4" cols="50"
-        id="input"
-        type="text"
-      ></textarea>
-      <textarea rows="4" cols="50"
-        type="text"
-        id="input2"
-
-        placeholder="Type something"
-        onChange={(e) => setBody=e.target.value}
-      ></textarea>
-
+      <div className="card">
+        <h2>
+          <b>Playground</b>
+        </h2>
+        <form className="form">
+          <div className="mb-4">
+            <textarea rows="4" cols="50" type="text" id="input2" placeholder="Type something" onChange={(e) => prompt = e.target.value}
+            ></textarea>
+          </div>
+        </form>
+        <div className="button">
+          <button className="button-b" type="button" onClick={handleCreate}>
+            <b>Submit</b>
+          </button>
+        </div>
+      </div>
     </div>
-    </form>
-    <div className="button">
-      <button className="button-b" type="button" onClick={handleCreate}>
-        <b>Submit</b>
-      </button>
-    </div>
-    </div>
-  </div>
   );
 }
