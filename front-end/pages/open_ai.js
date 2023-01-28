@@ -36,25 +36,6 @@ const fetchData = async (prompt) => {
   }
 }
 
-// TODO: move to the server with `getServerSideProps()`
-
-// const fetchData = async (prompt) => {
-//   console.log(`fetch - body: ${JSON.stringify(prompt)}`)
-//   try {
-//     const response = await fetch('http://127.0.0.1:4000/open_ai/insert/', {
-//       method: 'POST',
-//       headers: {
-//         'Accept': 'application/json',
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({ "insert": prompt }),
-//     });
-//     return await response.json();
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }
-
 export default function () {
 
   let prompt = ""
